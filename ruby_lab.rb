@@ -4,21 +4,70 @@
 #
 # CSCI 305 - Ruby Programming Lab
 #
-# <firstname> <lastname>
-# <email-address>
+# <Giovany> <Addun>
+# <giovany.m.addun@gmail.com>
 #
 ###############################################################
 
-$bigrams = Hash.new # The Bigram data structure
-$name = "<firstname> <lastname>"
+$bigrams = Hash.new#{|h, k| h[k]={}} # The Bigram data structure
+$name = "<Giovany> <Addun>"
+$count = 0
+
+def bigramate(title)
+	words = title.split(" ")
+	previous = ""
+  count = 0
+	words.each do |next_gram|
+		if count > 0
+      p "#{count}"
+			if $bigrams[previous] == nil
+				$bigrams[previous]= {:"#{next_gram}" => 1}
+      elsif $bigrams[previous][next_gram] == nil
+        $bigrams[previous][next_gram]=1
+      else
+        p "BBB000000\n\n"
+        num = $bigrams[previous][next_gram]
+        num+=1
+        $bigram[previous][next_gram] = num
+			end
+    end
+    p "#{count}"
+		count +=1
+		previous = next_gram
+	end
+end
+
+def cleanup_title(line)
+	title = line.gsub(/(.)+<SEP>/, "")
+	title=title.gsub(/\n/, "")
+	title = title.gsub(/\s(\((.+)\)|\[(.+)\]|{(.+)}|\\(.+)|\/(.+)|_(.+)|-(.+)|:(.+)|"(.+)"|`(.+)|\+(.+)|=(.+)|\*(.+)|(feat\.(.+)))/, "")
+	if title =~/^([[:ascii:]]+)$/
+		$count+=1
+		title = title.downcase.gsub(/[[:punct:]]/, '')
+    p title
+		bigramate(title)
+  end
+end
+
+def mcw(verb)
+	word = ""
+	greatest = 0
+  for key in ($bigrams[word]).keys
+		if $bigrams[word][key]>greatest
+			greatest = $bigrams[word][key]
+			word = key
+		end
+	end
+	word
+end
 
 # function to process each line of a file and extract the song titles
 def process_file(file_name)
 	puts "Processing File.... "
 
 	begin
-		IO.foreach(file_name) do |line|
-			# do something for each line
+		IO.foreach(file_name, encoding: "utf-8") do |line|
+			cleanup_title(line)
 		end
 
 		puts "Finished. Bigram model built.\n"
@@ -39,8 +88,9 @@ def main_loop()
 
 	# process the file
 	process_file(ARGV[0])
-
+	p $count
 	# Get user input
+  mcw("happy")
 end
 
 if __FILE__==$0
