@@ -9,32 +9,36 @@
 #
 ###############################################################
 
-$bigrams = Hash.new#{|h, k| h[k]={}} # The Bigram data structure
+# The $bigram global variable stores the frequency of every consecutive word-pair
+# within a set of (filtered) song titles.
+# It is a nested hash of the structure
+# $bigrams[word_n][word_n=+1] == frequency
+$bigrams = Hash.new
 $name = "<Giovany> <Addun>"
-$count = 0
 
+=begin
+The bigramate modifies the bigram
+=end
 def bigramate(title)
 	words = title.split(" ")
 	previous = ""
   count = 0
 	words.each do |next_gram|
 		if count > 0
-      p "#{count}"
 			if $bigrams[previous] == nil
-				$bigrams[previous]= {:"#{next_gram}" => 1}
+				$bigrams[previous]= {"#{next_gram}" => 1}
       elsif $bigrams[previous][next_gram] == nil
         $bigrams[previous][next_gram]=1
       else
-        p "BBB000000\n\n"
         num = $bigrams[previous][next_gram]
-        num+=1
-        $bigram[previous][next_gram] = num
+        num = num+1
+        $bigrams[previous][next_gram] = num
 			end
     end
-    p "#{count}"
-		count +=1
-		previous = next_gram
-	end
+		count = count + 1
+		previous = "#{next_gram}"
+  end
+
 end
 
 def cleanup_title(line)
@@ -44,7 +48,6 @@ def cleanup_title(line)
 	if title =~/^([[:ascii:]]+)$/
 		$count+=1
 		title = title.downcase.gsub(/[[:punct:]]/, '')
-    p title
 		bigramate(title)
   end
 end
