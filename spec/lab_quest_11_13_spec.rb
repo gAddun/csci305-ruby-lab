@@ -1,4 +1,4 @@
-xrequire './ruby_lab.rb'
+require './ruby_lab.rb'
 
 RSpec.describe "Lab Questions Check" do
   context "unique_tracks with stop words removed" do
