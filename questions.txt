@@ -1,24 +1,36 @@
-Your name
+Giovany Addun
 CSCI-305
 
 10.
-
+	Some words in the title_tracks never occur as the first word in a bigram pair within our bigram model. Therefore, no entries in our model exist and when we call the mcw method on such words, and nil is returned.
 14.
-
+	In the English language, there are common n-gram patterns. If we think of these patterns as directional links between symbols, the links can make cyclic paths through these symbols. 
+	For instance, say there is some vernacular in which the most common word following "here" is "is" and where the most common word following "is" is "here".
+	If we called the mcw method on bigram model from such a language, we would get a repeating pattern similar to the ones occuring with the model built from unique_tracks.
 15.
-
+	I tried words that typically do not begin English phrases
+	[him, her, again, me]
+	English can be contextually ambiguous, and gramatically irregular in common vernacular. For example, "him and her" may be gramatically incorrect, the phrase may be used colloquially enought that it is an accepted phrase in common use.
 16.
-
+	I treated each word in the generated "song title" as a node in a path with a single directional mapping to a next node (word). If the next node to be added to the path (i.e. the next word to be added to the title) is already contained in the path, the method terminates building the song title.
+	Because each word is assumed to have one word with greatest frequency of occurence(one directional mapping from the current symbol to the next), if a word in the title appears more than once (i.e. the path points back to itself), no new nodes will be added to the path
 19.
-
+	bob rogers dead end world is my heart
+	The most common word to follow "bob" is "rogers", and each word in our bigram model which follows "rogers" has equal frequency
 20.
-
+	bob rogers george harrison crabfeathers
 21.
-
+	I like that you can perform set subtraction on arrays. (ex. [1,2,3,'a','b','c'] - [2,'b'] = [1,3,'a','c'])
+	I also like the flexibilty duck-typing allows
+	The syntactical features which allow expressinos similar to spoken language (e.g. "unless") are nice, but rarely used by myself since I am used to other phrasings 
+	
 22.
-
+	I do not like that exception handling does not automatically tell you what kind of exception or error was raised
 23.
-
+	I enjoyed this lab.
+	I had never used Ruby prior to this assignment, but I enjoy learning new languages 
+	I found the Ruby documentation easy to read (which is always nice)
 24.
-
+	6
 25.
+	I prefer python because it's what I'm accustomed to, but I do not dislike the Ruby language

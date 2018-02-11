@@ -27,7 +27,7 @@ Consecutive string pairs are iterated over this array
 and values in the bigram model ($bigrams) is updated  with each iteration
 =end
 def bigramate(title)
-  stop_words = ["a", "an", "and", "by", "for", "from", "in", "of", "on", "or", "out", "the", "to", "with"]
+  stop_words = ["a", "an", "and", "by", "for", "from", "in", "of", "on", "or", "out", "the", "to", "with"] # set of stopwords to remove
 	words = title.split(" ") # title represented as an array of strings
   words -= stop_words # remove any stopwords from array of words
   previous = ""
@@ -82,12 +82,18 @@ def mcw(verb)
   #Iterate through each key value pair to find the pair with greatest freq value
   begin
     temp.keys.each do |key|
-      #key.strip()
+      key.strip()
       val = temp[key]
       #when the greatest frequency so far is found, update variables
       if val>greatest
         greatest = val
         word = key
+      elsif
+        val == greatest
+        shuffler = [1, 2]
+        if shuffler.sample(1) == 1
+          word = "#{key}"
+        end
       end
     end
 
@@ -106,19 +112,27 @@ by stringing together the most common consecutive words
 The title is limited to 20 words by the count variable
 =end
 def create_title(verb)
-  cur_word = verb
-  title = verb
-  count = 0
-  while count < 19 do
+  cur_word = "#{verb}"
+  title = "#{verb}"
+  quit_flag = false # control for while loop
+  count = 0 #control for word count
+  while quit_flag == false
     cur_word = mcw(cur_word)
-    if cur_word == nil
-      count = 21
+    # If there are no words that follows the current word
+    if cur_word.nil? == true
+      quit_flag = true
+    # If the current word already exists within the title
+    elsif title =~ /\b#{"#{cur_word}"}\b/
+      quit_flag = true
     else
+      title += " "+"#{cur_word}"
       count +=1
-      title += (" "+cur_word)
+    end
+    if count>=19
+      quit_flag = true
     end
   end
-  title
+  puts title
 end
 
 # function to process each line of a file and extract the song titles
@@ -144,19 +158,17 @@ def main_loop()
 	end
 	# process the file
 	process_file(ARGV[0])
-  temp = mcw("happy")
-  p temp
-
   # Loop with user input
   quit_flag = false
   while quit_flag == false
+    # Gets user input
     puts "Enter a word [Enter 'q' to quit]:"
     usr_inp = STDIN.gets.chomp
+    #if user chooses to quit
     if usr_inp == "q"
       quit_flag = true
     else
-      title =create_title(usr_inp)
-      p title
+      create_title(usr_inp)
     end
   end
 
